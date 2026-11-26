@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME: LAAVANYA R</H3>
+<H3>ENTER YOUR REGISTER NO: 212224230135</H3>
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE:26/11/2026</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -116,11 +116,129 @@ Normalize our dataset.
 
 <H3>Program:</H3> 
 
-Insert your code here
+```
+import pandas as pd
+import sklearn
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Load Pistachio Dataset
+data = pd.read_csv("Pistachio_Dataset.csv")
+
+# Display first 5 rows
+print(data.head())
+
+# Display column names
+print(data.columns)
+
+# Input features X
+X = data.drop(columns=["id", "Class"])
+
+# Target variable Y
+y = data["Class"]
+
+# Display X and y
+print(X.head())
+print(y.head())
+
+# Check unique classes
+print("Classes:")
+print(y.unique())
+
+# Convert categorical classes into numerical values
+le = preprocessing.LabelEncoder()
+y = le.fit_transform(y)
+
+print("Encoded classes:")
+print(y[:10])
+
+# Split dataset into training and testing data
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    random_state=42
+)
+
+# Feature scaling
+scaler = StandardScaler()
+
+scaler.fit(X_train)
+
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Create Multi-Layer Perceptron
+mlp = MLPClassifier(
+    hidden_layer_sizes=(10, 10, 10),
+    max_iter=1000,
+    random_state=42
+)
+
+# Train the MLP model
+mlp.fit(X_train, y_train)
+
+# Make predictions
+predictions = mlp.predict(X_test)
+
+print("Predictions:")
+print(predictions)
+
+# Evaluation of the model
+print("\nConfusion Matrix:")
+cm = confusion_matrix(y_test, predictions)
+print(cm)
+
+print("\nClassification Report:")
+print(classification_report(
+    y_test,
+    predictions,
+    target_names=le.classes_
+))
+
+# Plot Confusion Matrix Graph
+plt.figure(figsize=(7, 5))
+
+sns.heatmap(
+    cm,
+    annot=True,
+    fmt='d',
+    cmap='Blues',
+    xticklabels=le.classes_,
+    yticklabels=le.classes_
+)
+
+plt.title("Confusion Matrix - Pistachio Classification")
+plt.xlabel("Predicted Class")
+plt.ylabel("Actual Class")
+plt.show()
+
+```
 
 <H3>Output:</H3>
 
-Show your results here
+
+
+<img width="822" height="570" alt="image" src="https://github.com/user-attachments/assets/e8f008bb-e8e1-4ca7-82d4-642112eede65" />
+
+
+
+<img width="826" height="776" alt="image" src="https://github.com/user-attachments/assets/04d1a3a8-5ea6-4238-a8a8-37f8d51dfa32" />
+
+
+
+<img width="648" height="252" alt="image" src="https://github.com/user-attachments/assets/227f5265-0ef1-455d-94ba-e629d0012567" />
+
+
+<img width="791" height="497" alt="image" src="https://github.com/user-attachments/assets/6802f06a-4b76-44e9-8135-a9d3ceb8cd92" />
+
+
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
